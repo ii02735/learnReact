@@ -11,10 +11,11 @@ const user = (props) => {
                                         //we can only execute one line JS expression, not special stuffs (like classes, etc.)
     //new version with props
 
-    return (<div>
-        <h2>Hey ! My name is {props.name}</h2>
-        <p>{props.children == null ? "No occupations..." : props.children}</p> {/* children (special prop attribute) refers to content between the opening and the closing tags*/}
-        </div>
+    return (
+        <tr>
+           <td>{props.name == null ? "Unknown" : props.name}</td>
+           <td>{props.children == null ? "Nothing to say..." : props.children}</td>{/* children (special prop attribute) refers to content between the opening and the closing tags*/}
+        </tr>
     ) 
 };
 

@@ -5,3 +5,21 @@
 .test{
   color:red;
 }
+
+table{
+  text-align: center;
+  border:1px solid black;
+  border-collapse: collapse;
+}
+
+table *
+{
+  padding: 5px;
+  border: 1px solid black;
+}
+
+thead
+{
+  background: grey;
+  color: white;
+}
