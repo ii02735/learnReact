@@ -23,3 +23,7 @@ thead
   background: grey;
   color: white;
 }
+
+button{
+  margin-top: 20px;
+}

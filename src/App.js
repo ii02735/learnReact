@@ -60,16 +60,22 @@ class App extends Component
               <User name={this.state.users[2].name}> {this.state.users[2].comment} </User>
               {/* state is special : if we change it, React updates the Component DOM*/}
 
-
-
             </tbody>
           </table> 
+              {/*Event handling : we must use the camel case (for onClick instead of the HTML syntax, onclick*/}
+              {/*Warning : because it JS content, don't forget braces, and because it is related to the current class, the this object is mandatory*/}
+              <button onClick={this.clickHandler}>Click here !</button>
         </div>
        //warning : any HTML-ish JSX code from a component must be nested inside a ROOT element
    );
-   //Is equivalent to :
-   //return React.createElement("div",{className: "App"},React.createElement("h1",null,"Hi I'm a React application"));
+
   }
+
+  //method handler creation
+  clickHandler = () => {
+    console.log("click detected !");
+    //this keyword cannot be used inside the ES6 method scope
+  };
 }
 
 export default App; //export App Class to be used somewhere
