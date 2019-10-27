@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import User from "./User/User";
+import HookExample from "./User/HookExample";
 
 // function App() {
 //   return ( //JSX (not really HTML) content above :
@@ -65,6 +66,7 @@ class App extends Component
               {/*Event handling : we must use the camel case (for onClick instead of the HTML syntax, onclick*/}
               {/*Warning : because it JS content, don't forget braces, and because it is related to the current class, the this object is mandatory*/}
               <button onClick={this.clickHandler}>Click here !</button>
+              <HookExample/>
         </div>
        //warning : any HTML-ish JSX code from a component must be nested inside a ROOT element
    );
