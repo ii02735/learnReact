@@ -20,7 +20,8 @@ class App extends Component
           <h1>Hi I'm a React application</h1>
           <User /> {/*User component is used here*/}
           <User /> {/*Because we used Math.random content will be dynamic*/}
-          <User />      
+          <User name="hello"/> {/* Here we apply some attributes to our components */}
+          <User name="john">Occupations : working...</User>  {/* but we must add properties (props) elements in order to make this work */}
         </div>
        //warning : any HTML-ish JSX code from a component must be nested inside a ROOT element
    );
