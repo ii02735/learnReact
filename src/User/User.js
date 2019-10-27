@@ -17,6 +17,11 @@ const user = (props) => {
            <td>{props.children == null ? "Nothing to say..." : props.children}</td>{/* children (special prop attribute) refers to content between the opening and the closing tags*/}
         </tr>
     ) 
+
+    //we made a funtionnal method instead of a class, in order to prevent to use STATE property from its setter (setState)
+    //Indeed, if we use that setter in multiple components, it can be quickly unpredictable and difficult to manage our current component
+    //So, be careful when modifying STATE property
+
 };
 
 export default user;
