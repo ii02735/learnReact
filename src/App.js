@@ -74,7 +74,19 @@ class App extends Component
   //method handler creation
   clickHandler = () => {
     console.log("click detected !");
-    //this keyword cannot be used inside the ES6 method scope
+    //this keyword cannot be used inside the ES6 method scope => we cannot set this.state to change there, we must a getter !
+    //we must respect the syntax of the state attribute value
+    /**
+     * Indeed because, setState will check the attribute first, then it will MERGE what we entered inside the method, it will leave
+     * other properties untouched if they are not mentionned (something outside of users for example)
+     */
+    this.setState({
+      users: [
+        { name: "Tom" },
+        { name: "John", comment: "I'm an new user !"},
+        { name: "Carl", comment: "I'm getting old..."}
+      ]
+    });//because we have changed the state, the DOM is updated
   };
 }
 
