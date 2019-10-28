@@ -10,9 +10,9 @@ class App extends Component
       //instead of be modified outside it with props
       //remember : state is a SPECIAL property
       users: [
-        { name: "Mark", comment: "I'm a police Detective" },
-        { name: "Diana", comment: "I don't know what to do..." },
-        { name: "Frederick", comment: "I have to make a stop at my castle" }
+        { id: "!~#{±s", name: "Mark", comment: "I'm a police Detective" },
+        { id: "apop#12", name: "Diana", comment: "I don't know what to do..." },
+        { id: "king!#123",name: "Frederick", comment: "I have to make a stop at my castle" }
       ],
       showUsers: false //new property to test our condition
   };
@@ -25,9 +25,23 @@ class App extends Component
     {        
                 //Apply loop (better way instead of writing a lot of same code for HtML/JSX attributes)   
         users = (<div id="users"> 
+
+                  {/* 
+                      react cannot tell which elements we in fact modified.
+                      Without an unique identifier, a long list to display will be really inefficient
+                      And operations (delete, update) on it can cost resources if React doesn't directly know what to update
+                      from the previous DOM 
+
+                      So by default it renders the whole list (with the setState), which is very inefficient
+                      To fix this, we set the key property
+                  */}
+
                   { this.state.users.map( (user,i)=>{
-                      return <User name={user.name} delete={this.deleteUserHandler.bind(this,i)} click={this.showCommentHandler.bind(this,user.comment)}>{user.comment}</User>
-                  }) }
+                      //i (the incremental index) can be a unique index, but what happen if the list is modified (delete, add => i won't be the same anymore for each element)
+                      //So this is not a good way
+                      //Ergo, we must set our proper unique IDs !
+                      return <User key={user.id} name={user.name} delete={this.deleteUserHandler.bind(this,i)} click={this.showCommentHandler.bind(this,user.comment)}>{user.comment}</User>
+                  }) }  {/* we've set a key : so react can reference modified elements, which more optimized ! */}
                 </div>); //map will convert JS objects into valid JSX (the return is the element that will be stored in the new array)
                 //if it is null, well users won't have nothing 
     }
