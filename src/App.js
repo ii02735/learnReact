@@ -3,14 +3,10 @@ import './App.css';
 import User from "./User/User";
 import HookExample from "./User/HookExample";
 
-// function App() {
-//   return ( //JSX (not really HTML) content above :
-//     <div className="App">
-//         <h1>Hi I'm a React application</h1>
-//     </div>
-//   );
-// }
 
+//Because this component does store data and logic inside, it is a STATEFUL component
+//Unlike a stateless one, it is recommended to only have a couple of these (else, difficulties for maintenance)
+//So it is not a problem to not having no logic inside a component, but rather a presentation role instead
 class App extends Component
 {
   state = {

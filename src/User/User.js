@@ -3,7 +3,10 @@
 //So we can write a function, but we can also write it in ES6 format (thanks to Babel)
 
 import React from "react";
-            //we can name this argument (that will contain attributes informations) like we want to, but for better understanding, we write "props" instead
+ //we can name this argument (that will contain attributes informations) like we want to, but for better understanding, we write "props" instead
+
+ //Because this component doesn't store any data inside, it is called a STATELESS component (+ no internal logic)
+
 const user = (props) => {
     // a component is caracterized by its return : it returns JSX
     //return <h2>Hello I'm a user !!</h2> //for the moment our JSX code is not really dynamic...
