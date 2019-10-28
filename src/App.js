@@ -52,9 +52,13 @@ class App extends Component
 
                   //Version with state : we modify PROPS but DYNAMICALLY
               */}
-              <User name={this.state.users[0].name}> {this.state.users[0].comment} </User>
-              <User name={this.state.users[1].name}> {this.state.users[1].comment} </User>
-              <User name={this.state.users[2].name}> {this.state.users[2].comment} </User>
+              {/* We can pass by reference a method on a component instance in order to be used inside of it 
+                  Remember : bind() CREATES a new function with additional argument in it
+              */}
+              <User name={this.state.users[0].name} click={this.showCommentHandler.bind(this,this.state.users[0].comment)}> {this.state.users[0].comment} </User>
+              {/* Second syntax instead of bind(), we return a function object, however this syntax can be inefficient ! (PREFER BIND IF POSSIBLE) */}
+              <User name={this.state.users[1].name} click={() => this.showCommentHandler(this.state.users[1].comment)}> {this.state.users[1].comment} </User>
+              <User name={this.state.users[2].name} click={this.showCommentHandler.bind(this,this.state.users[2].comment)}> {this.state.users[2].comment} </User>
               {/* state is special : if we change it, React updates the Component DOM*/}
 
             </tbody>
@@ -86,6 +90,12 @@ class App extends Component
       ]
     });//because we have changed the state, the DOM is updated
   };
+
+  showCommentHandler = (comment) => {
+    console.log("Hey you clicked on it !  " + (comment != null ? "You made a comment : " + comment : "You haven't made a comment here..."));
+  };
 }
+
+
 
 export default App; //export App Class to be used somewhere

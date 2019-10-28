@@ -15,7 +15,10 @@ const user = (props) => {
     //new version with props
 
     return (
-        <tr>
+        //we'll work because we passed a method in reference with the click prop
+        //It can be a good practice if we want to change the state of this component somewhere else, so it reduce writing some logic in this component !
+        //The state will be changed it the parent component (where this component is used)
+        <tr onClick={props.click}>
            <td>{props.name == null ? "Unknown" : props.name}</td>
            <td>{props.children == null ? "Nothing to say..." : props.children}</td>{/* children (special prop attribute) refers to content between the opening and the closing tags*/}
         </tr>
