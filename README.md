@@ -2,7 +2,7 @@
 - ## basics :
     - Create App
     - Components basics (class, functional)
-    - JSX syntax
+    - **JSX** syntax
     - Passing data to components for dynamic rendering
         - Working with **props** and **states** + **passing methods to component**
         - ***Two-way binding***
