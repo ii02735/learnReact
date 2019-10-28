@@ -75,8 +75,16 @@ class App extends Component
   };
 
   deleteUserHandler = (index) => {
-    const users = this.state.users;
+   // const users = this.state.users; //WARNING : users is an ARRAY, so we pass here by REFERENCE
+    //users.splice(index,1); //so any object manipulation like SPLICE will ALREADY MUTATE / modify the users ARRAY (strongly not recommended, because unpredictable behaviours)
+    //Unexpected behaviour because we change the state object BEFORE getting to SETSTATE !
+
+    //Correction : create a copy of the array first in order to change the state safely (update with immutable fashion)
+
+   // const users = this.state.users.slice(); //copy with slice (LEGACY)
+      const users = [...this.state.users]; //spread opeator (ES6, thanks to Babel)
     users.splice(index,1);
+  
     this.setState({ users: users });
   }
 }
