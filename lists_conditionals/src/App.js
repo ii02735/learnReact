@@ -40,7 +40,7 @@ class App extends Component
                       //i (the incremental index) can be a unique index, but what happen if the list is modified (delete, add => i won't be the same anymore for each element)
                       //So this is not a good way
                       //Ergo, we must set our proper unique IDs !
-                      return <User key={user.id} name={user.name} delete={this.deleteUserHandler.bind(this,i)} click={this.showCommentHandler.bind(this,user.comment)}>{user.comment}</User>
+                      return <User key={user.id} changed={(event)=>{this.changeCommentHandler(event,user.id)}} name={user.name} delete={this.deleteUserHandler.bind(this,i)} click={this.showCommentHandler.bind(this,user.comment)}>{user.comment}</User>
                   }) }  {/* we've set a key : so react can reference modified elements, which more optimized ! */}
                 </div>); //map will convert JS objects into valid JSX (the return is the element that will be stored in the new array)
                 //if it is null, well users won't have nothing 
@@ -74,13 +74,28 @@ class App extends Component
     this.setState({ showUsers: !this.state.showUsers })
   } //notice : with normal function redaction, so without assign an object function in a variable, "this" keyword won't be accessible to the method
  
-  changeCommentHandler = (event) =>{
+  changeCommentHandler = (event, key) =>{ //NEW ARGUMENT : key => very important
+    //thanks to key :
+                  //findIndex takes a Predicate (boolean function that will return the index of the desired element if TRUE is encountered)
+                  //So for each element, the Predicate will be applied
+    const userIndex = this.state.users.findIndex((user) => user.id === key);
+
+    //warning : please update without passing by reference (this is what ONLY the setState must do here !)
+    //create a new object (copy) from the found one with the index (thanks to spread operator, which CREATE a new object with the indicated elements)
+    const userToModify = { ...this.state.users[userIndex] }; //here we create a NEW object from the element of users at usersIndex position
+
+    //Alternative would be : userToModify = Object.assign({},this.state.users[userIndex])
+
+    //we can now retrieve the proper object that we want to update, here the comment :
+
+    userToModify.comment = event.target.value; //remember : event.target.value is the content of the input
+    //Because modifying state elements must be done immutabely, we copy the whole array
+    const usersCopy = [...this.state.users]  
+    //And, we modify the desired element in that new array. Because it is a copy, we are free to use reference pass :
+    usersCopy[userIndex] = userToModify;
+
     this.setState({
-      users: [
-        { name: "Mark", comment: "I'm a police Detective" },
-        { name: "Diana", comment: "I don't know what to do..." },
-        { name: "Frederick", comment: event.target.value }
-      ]
+      users: usersCopy //usersCopy takes the old values (thanks to spread, and the element at userIndex is modified, so setState will indeed update the DOM)
     });//because we have changed the state, the DOM is updated
   }
 
