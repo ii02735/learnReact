@@ -19,20 +19,16 @@ class App extends Component
 
   render()
   {
-    const style = {
-      //warning : JS syntax only !
-      backgroundColor: "wheat",
-    }; //example of inline style
-
     //Better syntax for condition instead of ternary operation:
     let users = null; //we'll store the JSX code inside users
     if(this.state.showUsers)
-    { 
+    {        
+                //Apply loop (better way instead of writing a lot of same code for HtML/JSX attributes)   
         users = (<div id="users"> 
-                  <User name={this.state.users[0].name} click={this.showCommentHandler.bind(this,this.state.users[0].comment)}>{this.state.users[0].comment}</User>
-                  <User name={this.state.users[1].name} click={() => this.showCommentHandler(this.state.users[1].comment)}>{this.state.users[1].comment}</User>
-                  <User name={this.state.users[2].name} style={style} changeComment={this.changeCommentHandler} click={this.showCommentHandler.bind(this,this.state.users[2].comment)}>{this.state.users[2].comment}</User>
-                </div>);
+                  { this.state.users.map( (user,i)=>{
+                      return <User name={user.name} delete={this.deleteUserHandler.bind(this,i)} click={this.showCommentHandler.bind(this,user.comment)}>{user.comment}</User>
+                  }) }
+                </div>); //map will convert JS objects into valid JSX (the return is the element that will be stored in the new array)
                 //if it is null, well users won't have nothing 
     }
 
@@ -77,6 +73,12 @@ class App extends Component
   showCommentHandler = (comment) => {
     console.log("Hey you clicked on it !  " + (comment != null ? "You made a comment : " + comment : "You haven't made a comment here..."));
   };
+
+  deleteUserHandler = (index) => {
+    const users = this.state.users;
+    users.splice(index,1);
+    this.setState({ users: users });
+  }
 }
 
 
