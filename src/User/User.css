@@ -1,0 +1,15 @@
+.User
+{
+    text-align:center;
+    border: 1px solid #eee;
+    box-shadow: 0px 1px 3px 0px;
+    padding: 16px;
+    width: 20%;
+    margin: 20px;
+    display: inline-block;
+}
+
+hr
+{
+    color: lightblue;
+}

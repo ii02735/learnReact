@@ -18,10 +18,12 @@ const user = (props) => {
         //we'll work because we passed a method in reference with the click prop
         //It can be a good practice if we want to change the state of this component somewhere else, so it reduce writing some logic in this component !
         //The state will be changed it the parent component (where this component is used)
-        <tr onClick={props.click}>
-           <td>{props.name == null ? "Unknown" : props.name}</td>
-           <td>{props.children == null ? "Nothing to say..." : props.children}</td>{/* children (special prop attribute) refers to content between the opening and the closing tags*/}
-        </tr>
+        <div onClick={props.click} className="User" style={props.style}>
+           <h4>{props.name == null ? "Unknown" : props.name}</h4>
+           <hr></hr>
+           <p>{props.children == null ? "Nothing to say..." : props.children}</p>{/* children (special prop attribute) refers to content between the opening and the closing tags*/}
+           <span><input type="text" onChange={props.changeComment} value={props.children}/></span>{/* we can do double-binding : show the current value in the input before it changes */}
+        </div>
     ) 
 
     //we made a funtionnal method instead of a class, in order to prevent to use STATE property from its setter (setState)

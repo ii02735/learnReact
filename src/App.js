@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
+import './User/User.css' //Because we display User components here, we must import their CSS also here !
 import User from "./User/User";
 import HookExample from "./User/HookExample";
-
+import UserOutput from "./Assignement1/UserOutput";
+import UserInput from './Assignement1/UserInput';
 
 //Because this component does store data and logic inside, it is a STATEFUL component
 //Unlike a stateless one, it is recommended to only have a couple of these (else, difficulties for maintenance)
@@ -17,23 +19,23 @@ class App extends Component
         { name: "Mark", comment: "I'm a police Detective" },
         { name: "Diana", comment: "I don't know what to do..." },
         { name: "Frederick", comment: "I have to make a stop at my castle" }
-      ]
+      ],
+      output: {
+        username: "hello world"
+      }
   };
 
   render()
   {
+    const style = {
+      //warning : JS syntax only !
+      backgroundColor: "wheat"
+    }; //example of inline style
+
     return ( //JSX (not really HTML) content above :
               //As an exemple : we write "class" attribute in HTML, but here "className"
         <div className="Hello">
           <h1>Hi I'm a React application</h1>
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Comment</th>
-              </tr>
-            </thead>
-            <tbody>
               {/* BE CAREFUL TO NOT LEAVE ANY WHITESPACE AFTER WRITTEN CODE */}
               {/* because we've written tags for tables in our component template : there is no problem to put them in tbody */}
               {/*<User /> {/*User component is used here*/}
@@ -55,22 +57,31 @@ class App extends Component
               {/* We can pass by reference a method on a component instance in order to be used inside of it 
                   Remember : bind() CREATES a new function with additional argument in it
               */}
-              <User name={this.state.users[0].name} click={this.showCommentHandler.bind(this,this.state.users[0].comment)}> {this.state.users[0].comment} </User>
+              <User name={this.state.users[0].name} click={this.showCommentHandler.bind(this,this.state.users[0].comment)}>{this.state.users[0].comment}</User>
               {/* Second syntax instead of bind(), we return a function object, however this syntax can be inefficient ! (PREFER BIND IF POSSIBLE) */}
-              <User name={this.state.users[1].name} click={() => this.showCommentHandler(this.state.users[1].comment)}> {this.state.users[1].comment} </User>
-              <User name={this.state.users[2].name} click={this.showCommentHandler.bind(this,this.state.users[2].comment)}> {this.state.users[2].comment} </User>
+              <User name={this.state.users[1].name} click={() => this.showCommentHandler(this.state.users[1].comment)}>{this.state.users[1].comment}</User>
+              <User name={this.state.users[2].name} style={style}changeComment={this.changeCommentHandler} click={this.showCommentHandler.bind(this,this.state.users[2].comment)}>{this.state.users[2].comment}</User>
               {/* state is special : if we change it, React updates the Component DOM*/}
-
-            </tbody>
-          </table> 
               {/*Event handling : we must use the camel case (for onClick instead of the HTML syntax, onclick*/}
               {/*Warning : because it JS content, don't forget braces, and because it is related to the current class, the this object is mandatory*/}
-              <button onClick={this.clickHandler}>Click here !</button>
+              <button onClick={this.clickHandler} id="firstButton">Click here !</button>
               <HookExample/>
+              <div className="assignement1">
+              <UserInput changeName={this.changeNameAssignement1}/>
+              <UserOutput username={this.state.output.username}>Some paragraph text here</UserOutput>
+              </div>
         </div>
        //warning : any HTML-ish JSX code from a component must be nested inside a ROOT element
    );
 
+  }
+
+  changeNameAssignement1 = (event) => {
+    this.setState({
+      output: {
+        username: event.target.value
+      }
+    })
   }
 
   //method handler creation
@@ -90,6 +101,20 @@ class App extends Component
       ]
     });//because we have changed the state, the DOM is updated
   };
+
+  //When we'll typing, the comment for Frederick will be changed
+  //We will deal with a better a way to write this : change every comment for each component (not only for a specific data)
+  //So an error-warning will be shown for components that don't have their onChange handler property set
+  //Indeed because, with the current method, we will LOSE (we wrote the old state for User components) changes made with clickHandler !
+  changeCommentHandler = (event) =>{
+    this.setState({
+      users: [
+        { name: "Mark", comment: "I'm a police Detective" },
+        { name: "Diana", comment: "I don't know what to do..." },
+        { name: "Frederick", comment: event.target.value }
+      ]
+    });//because we have changed the state, the DOM is updated
+  }
 
   showCommentHandler = (comment) => {
     console.log("Hey you clicked on it !  " + (comment != null ? "You made a comment : " + comment : "You haven't made a comment here..."));
