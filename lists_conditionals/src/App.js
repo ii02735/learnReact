@@ -97,6 +97,7 @@ class App extends Component
     this.setState({
       users: usersCopy //usersCopy takes the old values (thanks to spread, and the element at userIndex is modified, so setState will indeed update the DOM)
     });//because we have changed the state, the DOM is updated
+       //So instead of writing by the hard way, the old data are preserved into an array (DYNAMIC)
   }
 
   showCommentHandler = (comment) => {
