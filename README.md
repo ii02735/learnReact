@@ -1,7 +1,7 @@
 # ReactJS Learning 
 - ## basics :
     - Create App
-    - Components basics (class, functional)
+    - Components basics (class, functional -> **Hooks**)
     - **JSX** syntax
     - Passing data to components for dynamic rendering
         - Working with **props** and **states** + **passing methods to component**
