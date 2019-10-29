@@ -37,8 +37,13 @@ class App extends React.Component
   {
     const chars = this.state.content.split(""); //because the array (split) is not part of the state property, no need to copy here
     chars.splice(key,1);
-    this.setState({ content: chars.join("") /* because the content originally split, we just have to join it again ! */})
+    this.setState({ content: chars.join("") /* because the content is split, we just have to join it again to make our new string (input value) ! */})
     //content is modified, so the input text will also be , thanks to DOUBLE BINDING ! (value={this.state.content} No need to remove char from array or stuff)
+    //there is no need to make a complex key because :
+    /**
+     * We haven't establised complex objects in state (only value typed is subject to modification)
+     * Indexes are changed after splice, YET no changing operation on the array is done before join (so index order is preserved)
+     */
   }
 
   changeHandler = (event) => {
