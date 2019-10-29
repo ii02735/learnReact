@@ -12,13 +12,28 @@ class App extends Component
       users: [
         { id: "!~#{±s", name: "Mark", comment: "I'm a police Detective" },
         { id: "apop#12", name: "Diana", comment: "I don't know what to do..." },
-        { id: "king!#123",name: "Frederick", comment: "I have to make a stop at my castle" }
+        { id: "king!#123",name: "Frederick", comment: "I have to make a stop at my castle" },
+        { id: "johndoe",name: "John", comment: "I'm nobody" }
       ],
       showUsers: false //new property to test our condition
   };
 
   render()
   {
+    //INLINE style 
+    /**
+     * Pros: only for render scope (no side effect outside), only for one element here (button)
+     * Cons: no pseudo selector, must use stylesheets instead --> bad because it will GLOBALLY apply if included in other components (overall in App.css)
+     */
+
+    const style = {
+      background: "green",
+      border: "1px solid blue",
+      padding: "8px",
+      cursor: "pointer",
+      color: "white"
+    } //but for now, let's try to change it dynamically (we want the button to have a green background when the users are not showed, else red)
+
     //Better syntax for condition instead of ternary operation:
     let users = null; //we'll store the JSX code inside users
     if(this.state.showUsers)
@@ -42,27 +57,43 @@ class App extends Component
                       //Ergo, we must set our proper unique IDs !
                       return <User key={user.id} changed={(event)=>{this.changeCommentHandler(event,user.id)}} name={user.name} delete={this.deleteUserHandler.bind(this,i)} click={this.showCommentHandler.bind(this,user.comment)}>{user.comment}</User>
                   }) }  {/* we've set a key : so react can reference modified elements, which more optimized ! */}
-                </div>); //map will convert JS objects into valid JSX (the return is the element that will be stored in the new array)
-                //if it is null, well users won't have nothing 
+                </div>); 
+                //after showing the users list, the button style must be changed
+                //We used a const, however the value is an object, so we can CHANGE it with its PROPERTIES (we cannot REPLACE it)
+                style.background = "red";
+                /**
+                 * Remember, everything here IS JAVASCRIPT, you can manipulate any variables like you want !
+                 */
     }
 
-    return ( //JSX (not really HTML) content above :
-              //As an exemple : we write "class" attribute in HTML, but here "className"
-        <div className="Hello">
-          <h1>Hi I'm a React application</h1>
+    //dynamic classes 
+    const classes = [];
+    //we want to change h1 welcome element's class according to certain conditions regarding users QUANTITY 
+    /**
+     * If there is more than 3, turn to BOLD Green
+     * If there is more than 2, turn to Green only
+     * If there is less than 2, turn to Red only
+     * If there is NONE, turn to Red bold
+     *  
+     * Because we used const keyword, classes array is only modifiable through reference (methods)
+     */ 
 
-            <button onClick={this.toggleUsersHandler}>Toggle users</button>
-            {/* we'll render the User components conditionally 
-                We surrond the dynamic block with braces
-            // */}
-            { /*We must write a ternary expression, since we can't really write conditions with JS way (so not the optimized way for complex conditions)* }
-            //   this.state.showUsers ? 
-            // <div id="users"> 
-            //   <User name={this.state.users[0].name} click={this.showCommentHandler.bind(this,this.state.users[0].comment)}>{this.state.users[0].comment}</User>
-            //   <User name={this.state.users[1].name} click={() => this.showCommentHandler(this.state.users[1].comment)}>{this.state.users[1].comment}</User>
-            //   <User name={this.state.users[2].name} style={style} changeComment={this.changeCommentHandler} click={this.showCommentHandler.bind(this,this.state.users[2].comment)}>{this.state.users[2].comment}</User>
-            // </div> : null /*  null : if it is false, nothing is rendered*/}
+     //We don't use ELSEIF here in order to push multiple elements, and only one
+     if(this.state.users.length >= 2)
+      classes.push("green")
+     if(this.state.users.length >= 3)
+      classes.push("bold")
+     if(this.state.users.length < 2)
+      classes.push("red")
+     if(this.state.users.length === 0)
+      classes.push("bold");
 
+    return ( 
+        <div className="App">
+          <h1 className={classes.join(" ")}>Hi I'm a React application</h1>
+
+            <button style={style} onClick={this.toggleUsersHandler}>Toggle users</button>
+        
             {users}
         </div>
        //warning : any HTML-ish JSX code from a component must be nested inside a ROOT element
