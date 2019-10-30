@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import './User/User.css';
 import User from "./User/User";
+import Radium from 'radium'; //in order to apply special CSS operations (selectors, pseudo-selectors in JS)
 
 class App extends Component
 {
@@ -23,7 +24,10 @@ class App extends Component
     //INLINE style 
     /**
      * Pros: only for render scope (no side effect outside), only for one element here (button)
-     * Cons: no pseudo selector, must use stylesheets instead --> bad because it will GLOBALLY apply if included in other components (overall in App.css)
+     * Cons: no selectors or pseudo selectors (:hover), mediaqueries.., must use stylesheets instead --> bad because it will GLOBALLY apply if included in other components (overall in App.css)
+     * Workaround with IDs or classes in stylesheet, BUT solutions exist when writing JS styles like below
+     * 
+     * But we must install a THIRD-PARTY PACKAGE : radium --> npm install --save radium
      */
 
     const style = {
@@ -31,9 +35,13 @@ class App extends Component
       border: "1px solid blue",
       padding: "8px",
       cursor: "pointer",
-      color: "white"
-    } //but for now, let's try to change it dynamically (we want the button to have a green background when the users are not showed, else red)
-
+      color: "white",
+      //wite Radium, must use quotes because pseudo selector begins with colon
+      ':hover':{
+        background: "darkblue",
+        color: "yellow"
+      }
+    } 
     //Better syntax for condition instead of ternary operation:
     let users = null; //we'll store the JSX code inside users
     if(this.state.showUsers)
@@ -64,6 +72,11 @@ class App extends Component
                 /**
                  * Remember, everything here IS JAVASCRIPT, you can manipulate any variables like you want !
                  */
+                //Thanks to radium we can now modify pseudo selectors !
+                style[":hover"] = { //const is still respected, we modify an attribute inside, not the whole style object
+                  background: "darkred",
+                  color: "gold"
+                };
     }
 
     //dynamic classes 
@@ -78,7 +91,7 @@ class App extends Component
      * Because we used const keyword, classes array is only modifiable through reference (methods)
      */ 
 
-     //We don't use ELSEIF here in order to push multiple elements, and only one
+     //We don't use ELSEIF here in order to push multiple elements, and not only one
      if(this.state.users.length >= 2)
       classes.push("green")
      if(this.state.users.length >= 3)
@@ -152,4 +165,4 @@ class App extends Component
 
 
 
-export default App; //export App Class to be used somewhere
+export default Radium(App); //Radium must wrap the App component in order to enable it in that component = higher order component
