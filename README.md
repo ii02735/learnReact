@@ -24,3 +24,20 @@
         - Inside ***return*** of ``render()``, only *ternary operations* are applicables though
 
         - Before ``render()`` , more pragmatic (freedom of storing JSX in temporary variable)
+
+- ## styling_components : two ways to apply dynamic CSS
+
+It is of course possible to write *CSS stylesheets* for components, but can be problematic if these are used by **multiple** components. The solution would be to write **CSS inside components' code (in JS)**.
+
+However, it has some limitations, because it has an *inline syntax* : ``<div style="style">`` :
+
+    - No custom selectors
+    - No mediaqueries...
+
+There are two solutions :
+
+    - Third-party **radium** package
+        - Don't forget to import Radium at the concerned component
+    
+    - CSS Modules : scope CSS stylesheets for **specific components**
+
