@@ -92,7 +92,7 @@ class App extends Component
         <div className="App">
           <h1 className={classes.join(" ")}>Hi I'm a React application</h1>
 
-            <button onClick={this.toggleUsersHandler}>Toggle users</button>
+            <button style={style} onClick={this.toggleUsersHandler}>Toggle users</button>
         
             {users}
         </div>
