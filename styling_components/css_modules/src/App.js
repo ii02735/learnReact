@@ -85,9 +85,8 @@ class App extends Component
     return ( 
         <div className={styles.App}>
           <h1 className={classes.join(" ")}>Hi I'm a React application</h1>
-
           <button className={btnClass} onClick={this.toggleUsersHandler}>Toggle users</button>
-        
+       
             {users}
         </div>
        //warning : any HTML-ish JSX code from a component must be nested inside a ROOT element
