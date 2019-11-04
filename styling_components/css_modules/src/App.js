@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
-import './User/User.css';
+import styles from './App.module.css';
 import User from "./User/User";
 
 class App extends Component
@@ -20,24 +19,19 @@ class App extends Component
 
   render()
   {
-    //INLINE style 
-    /**
-     * Pros: only for render scope (no side effect outside), only for one element here (button)
-     * Cons: no selectors or pseudo selectors (:hover), mediaqueries.., must use stylesheets instead --> bad because it will GLOBALLY apply if included in other components (overall in App.css)
-     * Workaround with IDs or classes in stylesheet, BUT solutions exist when writing JS styles like below
-     * 
-     * But we must install a THIRD-PARTY PACKAGE : radium --> npm install --save radium
-     */
 
-    const style = {
-      background: "green",
-      border: "1px solid blue",
-      padding: "8px",
-      cursor: "pointer",
-      color: "white",
-    } 
+    // const style = {
+    //   background: "green",
+    //   border: "1px solid blue",
+    //   padding: "8px",
+    //   cursor: "pointer",
+    //   color: "white",
+     // }  --> use of CSS modules instead
+    let btnClass = ""; //Will change when button is clicked
     //Better syntax for condition instead of ternary operation:
+
     let users = null; //we'll store the JSX code inside users
+   
     if(this.state.showUsers)
     {        
                 //Apply loop (better way instead of writing a lot of same code for HtML/JSX attributes)   
@@ -61,8 +55,8 @@ class App extends Component
                   }) }  {/* we've set a key : so react can reference modified elements, which more optimized ! */}
                 </div>); 
                 //after showing the users list, the button style must be changed
-                //We used a const, however the value is an object, so we can CHANGE it with its PROPERTIES (we cannot REPLACE it)
-                style.background = "red";
+          
+                btnClass = styles.Red;
 
     }
 
@@ -80,19 +74,19 @@ class App extends Component
 
      //We don't use ELSEIF here in order to push multiple elements, and not only one
      if(this.state.users.length >= 2)
-      classes.push("green")
+      classes.push(styles.green)
      if(this.state.users.length >= 3)
-      classes.push("bold")
+      classes.push(styles.bold)
      if(this.state.users.length < 2)
-      classes.push("red")
+      classes.push(styles.red)
      if(this.state.users.length === 0)
-      classes.push("bold");
+      classes.push(styles.bold);
 
     return ( 
-        <div className="App">
+        <div className={styles.App}>
           <h1 className={classes.join(" ")}>Hi I'm a React application</h1>
 
-            <button onClick={this.toggleUsersHandler}>Toggle users</button>
+          <button className={btnClass} onClick={this.toggleUsersHandler}>Toggle users</button>
         
             {users}
         </div>

@@ -31,13 +31,27 @@ It is of course possible to write *CSS stylesheets* for components, but can be p
 
 However, it has some limitations, because it has an *inline syntax* : ``<div style="style">`` :
 
-    - No custom selectors
-    - No mediaqueries...
+- No custom selectors
+- No mediaqueries...
 
 There are two solutions :
 
-    - Third-party **radium** package
-        - Don't forget to import Radium at the concerned component
-    
-    - CSS Modules : scope CSS stylesheets for **specific components**
+- Third-party **radium** package
+    - Don't forget to import Radium at the concerned component
 
+- CSS Modules : scope CSS stylesheets for **specific components**
+    - Adding the *.module.css* extension to the concerned stylesheet (the CSS file MUST have the same as the component does)
+    The stylesheet will ONLY be applied for the concerned component, because React will generate an unique HASH for the component (so it will be scoped to the component) :
+
+    ```html
+    <div class="App_UNIQUE_HASH"></div>
+    ```  
+
+    In earlier versions, en **eject** of the application may be mandatory with ``npm run eject`` in order to unlock configuration files and edit them (add `` modules: true `` at *css-loader* section).
+
+# Debug
+
+Two ways to debug your application :
+
+- (Native) Browser console debugging tool
+- React developer tools browser **plugin**
