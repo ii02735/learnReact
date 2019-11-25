@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './App.module.css';
+import styles from './App.module.css'; //access style properties like objects (thanks to css modules)
 import User from "./User/User";
 
 class App extends Component
