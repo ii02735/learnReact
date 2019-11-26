@@ -26,12 +26,20 @@ const Cockpit = (props) => {
 
     useEffect(() => {
         console.info("Cockpit created");
+        const timer = setTimeout(() => {alert("fake http call")},2000);
         //we can also make a cleanup work in React hook :
         return () => { //that function will be called BEFORE useEffect, and AFTER the first render() call
+            clearTimeout(timer);   //prevent setTimeout to be executed when cockpit is removed 
             console.warn("Cockpit removed");
         };
     },[]);
 
+    useEffect(()=>{
+        console.info("Second call");
+        return (()=> {
+            console.warn("Second clean up");
+        });
+    });
     let btnClass = ""; //Will change when button is clicked
 
     if(props.showUsers)
