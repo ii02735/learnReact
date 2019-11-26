@@ -8,7 +8,12 @@ import Cockpit from "../components/Cockpit/Cockpit";
 
 class App extends Component
 {
-  state = {
+
+  constructor(props){ //first step of lifecycle creation
+    super(props);
+    console.log("constructor of App");
+    //state can also be initialized here --> modern way
+    this.state = {
       //will contain informations that can be modified only inside the component
       //instead of be modified outside it with props
       //remember : state is a SPECIAL property
@@ -19,21 +24,35 @@ class App extends Component
         { id: "johndoe",name: "John", comment: "I'm nobody" }
       ],
       showUsers: false //new property to test our condition
-  };
+    };
+  }
+
+  //second step of creation lifecycle
+  static getDerivedStateFromProps(props,state)
+  {
+    console.log("getDerivedStateFromProps method");
+    console.log(props);
+    return props;
+
+  }
+
+  //last step of lifecycle creation, so AFTER render() call 
+  //In that method, we can write side-effects statements, like HTTP calls
+  componentDidMount()
+  {
+    console.log("App.js componentDidMount method");
+  }
+
+  // componentWillMount() obsolete
+  // {
+  //   console.log("App.js componentWillMount");
+  // }
 
   render()
   {
-
-    // const style = {
-    //   background: "green",
-    //   border: "1px solid blue",
-    //   padding: "8px",
-    //   cursor: "pointer",
-    //   color: "white",
-     // }  --> use of CSS modules instead
+    //display Users component (via showUsers) recalls render() in order to update
     
-    //Better syntax for condition instead of ternary operation:
-
+    console.log("App.js rendering method")
     let users = null; //we'll store the JSX code inside users
    
     if(this.state.showUsers)
@@ -55,16 +74,6 @@ class App extends Component
 
     }
 
-    //  //We don't use ELSEIF here in order to push multiple elements, and not only one
-    //  if(this.state.users.length >= 2)
-    //   classes.push(styles.green)
-    //  if(this.state.users.length >= 3)
-    //   classes.push(styles.bold)
-    //  if(this.state.users.length < 2)
-    //   classes.push(styles.red)
-    //  if(this.state.users.length === 0)
-    //   classes.push(styles.bold); --> sent to cockpit
-    
     /**
      * Good practices : when we manage states in a component, associate JSX rendering such as below is not a better way of coding
      * We must split logic from rendering.
@@ -72,7 +81,9 @@ class App extends Component
     
     return ( 
         <div className={styles.App}>
-            <Cockpit toggleUsersHandler={this.toggleUsersHandler} users={this.state.users} showUsers={this.state.showUsers}/> {/* delegation to avoid a lot of conditions written */}
+            {/* Because the container must contains other components, writting a lot of conditions is not a good idea, so we use component delegating instead */}
+            {/*delegation = flexability -> good maintenance*/}
+            <Cockpit toggleUsersHandler={this.toggleUsersHandler} users={this.state.users} showUsers={this.state.showUsers}/>
             {users} {/* we will use a better way instead of mixing components inside another one --> we preserve the functionnal statement here, and the non ones to cockpit*/}
         </div>
        //warning : any HTML-ish JSX code from a component must be nested inside a ROOT element

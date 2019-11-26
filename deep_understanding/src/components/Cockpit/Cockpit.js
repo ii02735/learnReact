@@ -3,6 +3,10 @@ import styles from './Cockpit.module.css';
 /**
  * Will contain App's render method (because it is better to delegate its method there in order to not make state management harder -> split state logic with rendering)
  * So here we write a component that will be called by App (delegation -> less statements in the container)
+ * Because that component does not manage states (directly), it is a presentational / stateless / dumb component
+ * 
+ * In general, a good React application should be composed in majority of stateless components, managing multiple states in different components can be
+ * somewhat hard. Passing states to stateless props parameter is however easier.
  */
 
 const cockpit = (props) => {
