@@ -25,11 +25,12 @@ class App extends Component
         { id: "king!#123",name: "Frederick", comment: "I have to make a stop at my castle" },
         { id: "johndoe",name: "John", comment: "I'm nobody" }
       ],
-      showUsers: false //new property to test our condition
+      showUsers: false, //new property to test our condition
+      showCockpit: true
     };
   }
 
-  //second step of creation lifecycle
+  //second step of creation lifecycle : update states when PROPS are changed (very rare though)
   static getDerivedStateFromProps(props,state)
   {
     console.log("getDerivedStateFromProps method");
@@ -97,12 +98,18 @@ class App extends Component
         <div className={styles.App}>
             {/* Because the container must contains other components, writting a lot of conditions is not a good idea, so we use component delegating instead */}
             {/*delegation = flexability -> good maintenance*/}
-            <Cockpit toggleUsersHandler={this.toggleUsersHandler} users={this.state.users} showUsers={this.state.showUsers}/>
+            <button id={styles.cockpitDisplay} onClick={this.removeCockpit} >Remove Cockpit</button>
+            { this.state.showCockpit ? <Cockpit toggleUsersHandler={this.toggleUsersHandler} users={this.state.users} showUsers={this.state.showUsers}/> : null } 
             {users} {/* we will use a better way instead of mixing components inside another one --> we preserve the functionnal statement here, and the non ones to cockpit*/}
         </div>
        //warning : any HTML-ish JSX code from a component must be nested inside a ROOT element
    );
 
+  }
+
+  removeCockpit = () =>
+  {
+    this.setState({ showCockpit: !this.state.showCockpit });
   }
 
   toggleUsersHandler = () => {

@@ -11,12 +11,27 @@ import styles from './Cockpit.module.css';
 
 const Cockpit = (props) => {
     
-    //kind of componentDidUpdate, will be run any time when the component will be updated
+    //kind of componentDidUpdate, will be run any time when the component will be updated, and will be launched when it is initialized
+    //Ergo, it is mixed with componentDidMount and componentDidUpdate
     //So we can also write side effect statements, like HTTP requests
     useEffect(() => { //must capitalize component variable name first !
         console.log("Cockpit.js useEffect");
-    });
-    
+        //That method will be executed EACH time when there is an update
+        //But what if we want to execute a specific statement once ? When the children are updated (props.users) ?    
+        
+        setTimeout(() => { console.info(props.users); }, 1000);
+    },[props.users]); // we create an array, and inside it we put "watchers"
+
+    //If we want to execute another logic for another watcher, it is perfectly fine to ANOTHER useEffect() method.
+
+    useEffect(() => {
+        console.info("Cockpit created");
+        //we can also make a cleanup work in React hook :
+        return () => { //that function will be called BEFORE useEffect, and AFTER the first render() call
+            console.warn("Cockpit removed");
+        };
+    },[]);
+
     let btnClass = ""; //Will change when button is clicked
 
     if(props.showUsers)
@@ -45,12 +60,17 @@ const Cockpit = (props) => {
     if(props.users.length === 0)
         classes.push(styles.bold);
 
-    return(
-        <div className={styles.Cockpit}> {/* Don't forget the root element, but thanks to React 16, we can find a workaround --> later */}
-          <h1 className={classes.join(" ")}>Hi I'm a React application</h1>
-          <button className={btnClass} onClick={props.toggleUsersHandler}>Toggle users</button>
-        </div>
-    );
+    let output = null;
+
+    if(props.users.length !== 0)
+        output = (<div className={styles.Cockpit}> {/* Don't forget the root element, but thanks to React 16, we can find a workaround --> later */}
+                      <h1 className={classes.join(" ")}>Hi I'm a React application</h1>
+                      <button className={btnClass} onClick={props.toggleUsersHandler}>Toggle users</button>
+                 </div>);
+
+    return output;
+
+    //Don't forget that if we want to manage STATES, we can also use useState (instead of getDerivedStateFromProps) 
 };
 
 export default Cockpit;

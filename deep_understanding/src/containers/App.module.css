@@ -6,6 +6,18 @@
   height: 40vmin;
 }
 
+#cockpitDisplay
+{
+  background-color: wheat;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+#cockpitDisplay:hover
+{
+  background-color: khaki;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

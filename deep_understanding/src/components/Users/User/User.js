@@ -8,6 +8,11 @@ import userStyles from './User.module.css';
 
 class User extends Component {
     
+    componentDidMount()
+    {
+        console.info("User component successfully created");
+    }
+
     render(){    
         return (
             <div onClick={this.props.click} className={userStyles.User}>

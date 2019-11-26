@@ -66,5 +66,14 @@ import User from './User/User';
         console.log("Users.js componentDidUpdate");
         console.log({ snapshotValue: snapshot });   
     }
+
+    //What about hooks when the component is removed from the DOM (clean up) ?
+
+    //Will be triggered when component is removed from DOM (when we toggle again)
+    componentWillUnmount()
+    {
+        console.warn("Users component is removed");
+    }
+
  }
  export default Users;
