@@ -49,6 +49,49 @@ There are two solutions :
 
     In earlier versions, en **eject** of the application may be mandatory with ``npm run eject`` in order to unlock configuration files and edit them (add `` modules: true `` at *css-loader* section).
 
+- ## Deep understanding : Better project structuring + Functional and class based components
+
+  - ***Hook lifecycles*** (don't be misunderstood with *Hook React* which is not related) are specific methods that are run in specific timelines :
+    - During component *creation* : 
+    1. `constructor(props)` is called (constructor component, it is possible to initialize props here)
+    2. `getDerivedStateFromProps(props,state)`, which is **rarely used**. This is method is executed when we must update states when **props are changed**.
+    3. `render()` to display JSX's component
+    4. `componentDidMount()` in order to execute statements AFTER rendering (useful for async instructions or side-effects like **HTTP requests**)
+    
+        It is also possible to use a *Hook method* when the component is **removed** : `componentWillUnmount()`
+
+    - During component *updating* :
+    1. `getDerivedStateFromProps(props,state)` same for creation lifecycle
+    2. `shouldComponentUpdate(nextProps,nextState)` allows updating or not (must return **a boolean**)
+    3. `render()` for re-rendering the component (don't forget that it will be executed if a **child component** is updated)
+    4. `getSnapshotBeforeUpdate(prevProps,prevState)` for managing **previous props or state** before update made
+    5. `componentDidUpdate(prevProps,prevState,snapshot)` executed when component is updated. `snapshot` contains the **returned value by** `getSnapshotBeforeUpdate(prevProps,prevState)`
+
+  - For *React Hook* with functional component, it is **not possible to use *lifecycles hooks* methods**. However a workaround is possible thanks to **useEffect()** method :
+  ```js
+  import React, { useEffect } from 'react';
+
+  const Component = () => { //warning : in order to use useEffect, the variable name must be CAPITALIZED
+    useEffect(() => {
+        console.log("Component created or updated");
+    });
+  }
+  ```
+    useEffect() has functionalities of **two methods** : `componentDidMount()` and `componentDidUpdate()`.
+    For unmounting :
+
+    ```js
+    const Component = () => {
+        useEffect(() => {
+            return () => { //function invoked when component is deleted (watcher array must be still empty)
+                console.log("Component deleted");
+            }
+        },[]); //the second parameter is an array that contains watchers (inform React WHEN to execute useEffect, for which props for example)
+        
+        //If it is empty, useEffect() will be invoked only in the        component creation.
+    }
+    ```
+
 # Debug
 
 Two ways to debug your application :
