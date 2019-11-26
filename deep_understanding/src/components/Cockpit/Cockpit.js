@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react'; //useEffect allows us to use an alternative of lifecycle hook into a React hook (for functional component )
 import styles from './Cockpit.module.css';
 /**
  * Will contain App's render method (because it is better to delegate its method there in order to not make state management harder -> split state logic with rendering)
@@ -9,7 +9,13 @@ import styles from './Cockpit.module.css';
  * somewhat hard. Passing states to stateless props parameter is however easier.
  */
 
-const cockpit = (props) => {
+const Cockpit = (props) => {
+    
+    //kind of componentDidUpdate, will be run any time when the component will be updated
+    //So we can also write side effect statements, like HTTP requests
+    useEffect(() => { //must capitalize component variable name first !
+        console.log("Cockpit.js useEffect");
+    });
     
     let btnClass = ""; //Will change when button is clicked
 
@@ -47,4 +53,4 @@ const cockpit = (props) => {
     );
 };
 
-export default cockpit;
+export default Cockpit;

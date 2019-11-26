@@ -7,7 +7,7 @@ import User from './User/User';
 //conversion to a class based component (in order to use lifecycle methods)
  class Users extends Component {
     
-    //first step of lifecycle updating : handle props or state data before updating
+    //first step of lifecycle updating AND SECOND step of lifecycle CREATION : handle props or state data before updating
     //Can be used in specific cases : handle user input, form controlling etc.
     //Must have an EXISTANT state ! (define a state attribute)
     // static getDerivedStateFromProps(props,state)
@@ -24,7 +24,7 @@ import User from './User/User';
         //return boolean : if the component MUST CONTINUE to update, true, else FALSE.
         //method called when state or props are changed. For example here, it false, the user cannot change any text fields (because it will result to an state update --> double binding)
         return true;    
-    }
+    } //will be triggered when children components updating will be performed
 
 
     //third step of lifecycle updating
@@ -38,18 +38,33 @@ import User from './User/User';
     
     }
 
+    // componentWillUpdate() --> should never be used again : deprecated
+    // {
+
+    // }
+
     //fourth step of lifecycle updating, so after render()
-    //useful to save previous props or state before update them from the render (like for mouse position for example)
+    //useful to save previous props or state before update them from the render (like for mouse position for example) and use these old value AFTER the update
+    /**
+     * @param {*} prevProps previous props (so before updating). Because Users contains all the User components written (see in render()) 
+     * it will return ALL the props (for EACH User component so)
+     * @param {*} prevState previous state (so before updating)
+     * These two parameters will be NULL because there is no state there, and no props are updated by this component, but from its children
+     */
     getSnapshotBeforeUpdate(prevProps, prevState)
     {
         console.log("Users.js getSnapshotBeforeUpdate");
+        return { snapshot: "some older value"};
     }
 
     //last step of lifecycle updating
     //Used for side effects statements, like HTTP calls, or promises...
-    componentDidUpdate()
+    //Third param, snapshot is INJECTED by getSnapshotBeforeUpdate() return value
+    //componentDidUpdate is the most often used, because that hook is run after the component update
+    componentDidUpdate(prevProps,prevState,snapshot)
     {
         console.log("Users.js componentDidUpdate");
+        console.log({ snapshotValue: snapshot });   
     }
  }
  export default Users;

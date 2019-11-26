@@ -9,6 +9,8 @@ import Cockpit from "../components/Cockpit/Cockpit";
 class App extends Component
 {
 
+  //hook lifecycle INVOKES methods below (except of course for toggleUserHandler,changeCommentHandler,showCommentHandler or deleteUserHandler because these don't belong to Component class)
+
   constructor(props){ //first step of lifecycle creation
     super(props);
     console.log("constructor of App");
@@ -41,6 +43,18 @@ class App extends Component
   componentDidMount()
   {
     console.log("App.js componentDidMount method");
+  }
+
+  componentDidUpdate()
+  {
+    console.log("App.js component updated (componentDidUpdate Hook method)");
+  }
+
+  //remember that Hook method will forward the update or not (true or false, regarding conditions)
+  shouldComponentUpdate(nextProps, nextState)
+  {
+    console.log("App.js shouldComponentUpdate");
+    return true;
   }
 
   // componentWillMount() obsolete

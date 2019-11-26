@@ -8,7 +8,6 @@ import userStyles from './User.module.css';
 
 class User extends Component {
     
-
     render(){    
         return (
             <div onClick={this.props.click} className={userStyles.User}>
