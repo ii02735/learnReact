@@ -20,10 +20,27 @@ import User from './User/User';
     //must update the component or not ?
     shouldComponentUpdate(nextProps, nextState)
     {
-        console.log("Users.js shouldComponentUpdate");
+       // console.warn("Users.js shouldComponentUpdate");
         //return boolean : if the component MUST CONTINUE to update, true, else FALSE.
         //method called when state or props are changed. For example here, it false, the user cannot change any text fields (because it will result to an state update --> double binding)
-        return true;    
+       
+        /**
+         *  Problem here : whatever it is happening in App, Users will be updated (because return true)
+         *  Which is wrong because all the changes are not from Users only, but can also be from Cockpit.
+         *  So it is useless to update Users if there is no changes : in order to prevent App to make an update, we must write a condition
+         *  If the next props are the same as actual, we don't update it. With that condition, we can save some resources, and make better performances.
+         */    
+
+         if(nextProps.users !== this.props.users){
+            console.info("%c[Users.js] Users props have changed : updating component", "color: orange")
+            return true;
+        }
+
+
+        console.info("[Users.js] no changes regarding Users Props : preventing update");
+        return false;
+
+
     } //will be triggered when children components updating will be performed
 
 
@@ -53,7 +70,7 @@ import User from './User/User';
      */
     getSnapshotBeforeUpdate(prevProps, prevState)
     {
-        console.log("Users.js getSnapshotBeforeUpdate");
+        //console.log("Users.js getSnapshotBeforeUpdate");
         return { snapshot: "some older value"};
     }
 
@@ -63,8 +80,8 @@ import User from './User/User';
     //componentDidUpdate is the most often used, because that hook is run after the component update
     componentDidUpdate(prevProps,prevState,snapshot)
     {
-        console.log("Users.js componentDidUpdate");
-        console.log({ snapshotValue: snapshot });   
+        console.warn("Users.js componentDidUpdate");
+        //console.log({ snapshotValue: snapshot });   
     }
 
     //What about hooks when the component is removed from the DOM (clean up) ?

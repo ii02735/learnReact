@@ -33,8 +33,8 @@ class App extends Component
   //second step of creation lifecycle : update states when PROPS are changed (very rare though)
   static getDerivedStateFromProps(props,state)
   {
-    console.log("getDerivedStateFromProps method");
-    console.log(props);
+    //console.log("getDerivedStateFromProps method");
+    //console.log(props);
     return props;
 
   }
@@ -43,18 +43,18 @@ class App extends Component
   //In that method, we can write side-effects statements, like HTTP calls
   componentDidMount()
   {
-    console.log("App.js componentDidMount method");
+    //console.log("App.js componentDidMount method");
   }
 
   componentDidUpdate()
   {
-    console.log("App.js component updated (componentDidUpdate Hook method)");
+    console.warn("App.js component updated (componentDidUpdate Hook method)");
   }
 
   //remember that Hook method will forward the update or not (true or false, regarding conditions)
   shouldComponentUpdate(nextProps, nextState)
   {
-    console.log("App.js shouldComponentUpdate");
+    //  console.warn("App.js shouldComponentUpdate");
     return true;
   }
 
@@ -99,7 +99,7 @@ class App extends Component
             {/* Because the container must contains other components, writting a lot of conditions is not a good idea, so we use component delegating instead */}
             {/*delegation = flexability -> good maintenance*/}
             <button id={styles.cockpitDisplay} onClick={this.removeCockpit} >Remove Cockpit</button>
-            { this.state.showCockpit ? <Cockpit toggleUsersHandler={this.toggleUsersHandler} users={this.state.users} showUsers={this.state.showUsers}/> : null } 
+            { this.state.showCockpit ? <Cockpit toggleUsersHandler={this.toggleUsersHandler} usersLength={this.state.users.length} showUsers={this.state.showUsers}/> : null } 
             {users} {/* we will use a better way instead of mixing components inside another one --> we preserve the functionnal statement here, and the non ones to cockpit*/}
         </div>
        //warning : any HTML-ish JSX code from a component must be nested inside a ROOT element
@@ -154,10 +154,11 @@ class App extends Component
     //Correction : create a copy of the array first in order to change the state safely (update with immutable fashion)
 
    // const users = this.state.users.slice(); //copy with slice (LEGACY)
-      const users = [...this.state.users]; //spread opeator (ES6, thanks to Babel)
+    const users = [...this.state.users]; //spread opeator (ES6, thanks to Babel)
     users.splice(index,1);
   
     this.setState({ users: users });
+    console.log(this.state.users);
   }
 }
 
