@@ -19,22 +19,21 @@ const Cockpit = (props) => {
         //That method will be executed EACH time when there is an update
         //But what if we want to execute a specific statement once ? When the children are updated (props.users) ?    
         
-        setTimeout(() => { console.info(props.users); }, 1000);
     },[props.users]); // we create an array, and inside it we put "watchers"
 
     //If we want to execute another logic for another watcher, it is perfectly fine to ANOTHER useEffect() method.
 
     useEffect(() => {
-        console.info("Cockpit created");
-        const timer = setTimeout(() => {alert("fake http call")},2000);
+        console.log("%cCockpit created", 'color: darkgreen; background: lightgreen');
+        //const timer = setTimeout(() => {alert("fake http call")},2000);
         //we can also make a cleanup work in React hook :
         return () => { //that function will be called BEFORE useEffect, and AFTER the first render() call
-            clearTimeout(timer);   //prevent setTimeout to be executed when cockpit is removed 
+            //clearTimeout(timer);   //prevent setTimeout to be executed when cockpit is removed 
             console.warn("Cockpit removed");
         };
     },[]);
 
-    useEffect(()=>{
+    useEffect(()=>{  //This method should only be executed if there is changing regarding the Cockpit. However, because it is in App, it will react for each changes in that container
         console.info("Second call");
         return (()=> {
             console.warn("Second clean up");
@@ -59,18 +58,18 @@ const Cockpit = (props) => {
     
 
     //We don't use ELSEIF here in order to push multiple elements, and not only one
-    if(props.users.length >= 2)
+    if(props.usersLength >= 2)
     classes.push(styles.green)
-    if(props.users.length >= 3)
+    if(props.usersLength >= 3)
         classes.push(styles.bold)
-    if(props.users.length < 2)
+    if(props.usersLength < 2)
         classes.push(styles.red)
-    if(props.users.length === 0)
+    if(props.usersLength === 0)
         classes.push(styles.bold);
 
     let output = null;
 
-    if(props.users.length !== 0)
+    if(props.usersLength !== 0)
         output = (<div className={styles.Cockpit}> {/* Don't forget the root element, but thanks to React 16, we can find a workaround --> later */}
                       <h1 className={classes.join(" ")}>Hi I'm a React application</h1>
                       <button className={btnClass} onClick={props.toggleUsersHandler}>Toggle users</button>
@@ -81,4 +80,12 @@ const Cockpit = (props) => {
     //Don't forget that if we want to manage STATES, we can also use useState (instead of getDerivedStateFromProps) 
 };
 
-export default Cockpit;
+//Because we are in a functional component, Hook methods like shouldUpdateComponents are not applicable.
+//To use a workaround, we must wrap the export with React.memo (usage of memoization technique)
+/**
+ * Memoization :
+ * Store of a snapshot, and if its inputs change (props),
+ * it will re-render it. However React cannot pick changes regarding properties within props objects (like length property for users array)
+ * So instead of passing an object to props, and access to its property, we must pass directly the property
+ */
+export default React.memo(Cockpit);
