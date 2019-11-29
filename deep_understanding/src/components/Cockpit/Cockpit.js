@@ -74,6 +74,11 @@ const Cockpit = (props) => {
                       <h1 className={classes.join(" ")}>Hi I'm a React application</h1>
                       <button className={btnClass} onClick={props.toggleUsersHandler}>Toggle users</button>
                  </div>);
+    else
+        output = (<div className={styles.Cockpit}>
+                  <h1 className={classes.join(" ")}>Hi I'm a React application</h1>
+                  <button className={btnClass} onClick={props.toggleUsersHandler}>Toggle users</button>
+            </div>);
 
     return output;
 

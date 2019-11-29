@@ -155,8 +155,9 @@ class App extends Component
 
    // const users = this.state.users.slice(); //copy with slice (LEGACY)
     const users = [...this.state.users]; //spread opeator (ES6, thanks to Babel)
+    console.log(users);
     users.splice(index,1);
-  
+    console.log(users);
     this.setState({ users: users });
     console.log(this.state.users);
   }
