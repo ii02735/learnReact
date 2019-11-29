@@ -91,6 +91,21 @@ const Cockpit = (props) => {
  * Memoization :
  * Store of a snapshot, and if its inputs change (props),
  * it will re-render it. However React cannot pick changes regarding properties within props objects (like length property for users array)
- * So instead of passing an object to props, and access to its property, we must pass directly the property
+ * So instead of passing an object to props, and access to its property, we must pass directly the concerned property
  */
 export default React.memo(Cockpit);
+
+/**
+ * 
+ * Warning about checking updating :
+ * 
+ * If the parent MUST update its children when he's updating itself
+ * It is unnecessary to wrap the component in memo, or to write logic 
+ * in shouldComponentUpdate.
+ * Extra useless checking / logic is what components can be slower.
+ * 
+ * So DON'T USE lifecycle hook for OPTIMIZATION EVERYTIME !
+ * 
+ * "EARLY OPTIMIZATION IS ROOT OF ALL EVIL !"
+ * 
+ */
