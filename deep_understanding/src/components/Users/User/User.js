@@ -15,7 +15,7 @@ class User extends Component {
     
     shouldComponentUpdate(nextProps,nextState)
     {
-        if(nextProps.children!== this.props.children || nextProps.length === 1) //don't forget the props's attribute
+        if(nextProps.children !== this.props.children || nextProps.length === 1) //don't forget the props's attribute
         {
             /**
              * Same here : because User is in Users (which is in App), a change will provoke Users to update, hence ALL the User components will be updated
