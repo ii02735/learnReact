@@ -142,6 +142,23 @@ class App extends Component
       users: usersCopy //usersCopy takes the old values (thanks to spread, and the element at userIndex is modified, so setState will indeed update the DOM)
     });//because we have changed the state, the DOM is updated
        //So instead of writing by the hard way, the old data are preserved into an array (DYNAMIC)
+    
+    //warning : modify states INSIDE setState, is a BAD WAY to do it :
+
+    /**
+     * this.setState({ users: usersCopy, counter: counter + 1 //NO !!!})
+     * We can't guarantee if React will update it at needed time. Here, that issue won't be visible.
+     * But for heavier components, you must absolutely avoid that !
+     * 
+     * The better way is to invoke a callback inside the setState, and refers that we want to update the previous State
+     * 
+     * this.setState((prevState,props) => {
+     *  return {
+     *      users: usersCopy,
+     *      counter: prevState.counter + 1
+     *  };
+     * });
+     */ 
   }
 
   showCommentHandler = (comment) => {
