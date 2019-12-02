@@ -67,7 +67,7 @@ import User from './User/User';
             //Ergo, we must set our proper unique IDs !
                
             //Here we are granted to pass ADJACENT JSX (without root element), because a KEY is assigned for each element
-            return <User key={user.id} length={this.props.users.length} changed={(event)=>{this.props.changeCommentHandler(event,user.id)}} name={user.name} delete={this.props.deleteUserHandler.bind(this.props,i)} click={this.props.showCommentHandler.bind(this,user.comment)}>{user.comment}</User>
+            return <User isAuth={this.props.isAuthenticated } key={user.id} length={this.props.users.length} changed={(event)=>{this.props.changeCommentHandler(event,user.id)}} name={user.name} delete={this.props.deleteUserHandler.bind(this.props,i)} click={this.props.showCommentHandler.bind(this,user.comment)}>{user.comment}</User>
         })
     
     }

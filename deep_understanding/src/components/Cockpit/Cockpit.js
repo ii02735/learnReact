@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'; //useEffect allows us to use an alternative of lifecycle hook into a React hook (for functional component )
+import React, { useEffect, useRef /* in order to use referencess */ } from 'react'; //useEffect allows us to use an alternative of lifecycle hook into a React hook (for functional component )
 import styles from './Cockpit.module.css';
 /**
  * Will contain App's render method (because it is better to delegate its method there in order to not make state management harder -> split state logic with rendering)
@@ -11,27 +11,31 @@ import styles from './Cockpit.module.css';
 
 const Cockpit = (props) => {
     
+    //refs
+    const toggleBtnRef = useRef(null);
     //kind of componentDidUpdate, will be run any time when the component will be updated, and will be launched when it is initialized
     //Ergo, it is mixed with componentDidMount and componentDidUpdate
     //So we can also write side effect statements, like HTTP requests
+    useEffect(() => {
+        console.log("%cCockpit created", 'color: darkgreen; background: lightgreen');
+        //const timer = setTimeout(() => {alert("fake http call")},2000);
+        //we can also make a cleanup work in React hook :
+        toggleBtnRef.current.click(); //we make our click here AFTER the rendering (useEffect runs AFTER rendering)
+        return () => { //that function will be called BEFORE useEffect, and AFTER the first render() call
+            //clearTimeout(timer);   //prevent setTimeout to be executed when cockpit is removed 
+            console.warn("Cockpit removed");
+        };
+    },[]);
+
     useEffect(() => { //must capitalize component variable name first !
         console.log("Cockpit.js useEffect");
+
         //That method will be executed EACH time when there is an update
         //But what if we want to execute a specific statement once ? When the children are updated (props.users) ?    
         
     },[props.users]); // we create an array, and inside it we put "watchers"
 
     //If we want to execute another logic for another watcher, it is perfectly fine to ANOTHER useEffect() method.
-
-    useEffect(() => {
-        console.log("%cCockpit created", 'color: darkgreen; background: lightgreen');
-        //const timer = setTimeout(() => {alert("fake http call")},2000);
-        //we can also make a cleanup work in React hook :
-        return () => { //that function will be called BEFORE useEffect, and AFTER the first render() call
-            //clearTimeout(timer);   //prevent setTimeout to be executed when cockpit is removed 
-            console.warn("Cockpit removed");
-        };
-    },[]);
 
     useEffect(()=>{  //This method should only be executed if there is changing regarding the Cockpit. However, because it is in App, it will react for each changes in that container
         console.info("Second call");
@@ -46,6 +50,7 @@ const Cockpit = (props) => {
 
     //dynamic classes 
     const classes = [];
+
     //we want to change h1 welcome element's class according to certain conditions regarding users QUANTITY 
     /**
      * If there is more than 3, turn to BOLD Green
@@ -72,7 +77,8 @@ const Cockpit = (props) => {
     if(props.usersLength !== 0)
         output = (<div className={styles.Cockpit}> {/* Don't forget the root element, but thanks to React 16, we can find a workaround --> later */}
                       <h1 className={classes.join(" ")}>Hi I'm a React application</h1>
-                      <button className={btnClass} onClick={props.toggleUsersHandler}>Toggle users</button>
+                      <button ref={toggleBtnRef} className={btnClass} onClick={props.toggleUsersHandler}>Toggle users</button>
+                      <button onClick={props.login}>Log in</button>
                  </div>);
     else
         output = (<div className={styles.Cockpit}>

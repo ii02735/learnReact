@@ -28,7 +28,8 @@ class App extends Component
         { id: "johndoe",name: "John", comment: "I'm nobody" }
       ],
       showUsers: false, //new property to test our condition
-      showCockpit: true
+      showCockpit: true,
+      authenticated: false
     };
   }
 
@@ -75,7 +76,7 @@ class App extends Component
     if(this.state.showUsers)
     {        
                 //Apply loop (better way instead of writing a lot of same code for HtML/JSX attributes)
-        users =  <Users users={this.state.users} changeCommentHandler={this.changeCommentHandler} deleteUserHandler={this.deleteUserHandler} showCommentHandler={this.showCommentHandler}/>;      
+        users =  <Users users={this.state.users} isAuthenticated={this.state.authenticated} changeCommentHandler={this.changeCommentHandler} deleteUserHandler={this.deleteUserHandler} showCommentHandler={this.showCommentHandler}/>;      
                 /* 
                     react cannot tell which elements we in fact modified.
                     Without an unique identifier, a long list to display will be really inefficient
@@ -101,12 +102,16 @@ class App extends Component
             {/* Because the container must contains other components, writting a lot of conditions is not a good idea, so we use component delegating instead */}
             {/*delegation = flexability -> good maintenance*/}
             <button id={styles.cockpitDisplay} onClick={this.removeCockpit} >Remove Cockpit</button>
-            { this.state.showCockpit ? <Cockpit toggleUsersHandler={this.toggleUsersHandler} usersLength={this.state.users.length} showUsers={this.state.showUsers}/> : null } 
+            { this.state.showCockpit ? <Cockpit login={this.loginHandler} toggleUsersHandler={this.toggleUsersHandler} usersLength={this.state.users.length} showUsers={this.state.showUsers}/> : null } 
             {users} {/* we will use a better way instead of mixing components inside another one --> we preserve the functionnal statement here, and the non ones to cockpit*/}
         </Aux>
        //warning : any HTML-ish JSX code from a component must be nested inside a ROOT element
    );
 
+  }
+
+  loginHandler = () =>{
+    this.setState({authenticated: true})
   }
 
   removeCockpit = () =>
