@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import Aux from "../../../HOC/Aux"
 import userStyles from './User.module.css';
 import withClass from "../../../HOC/WithClass";
-
+import PropTypes from "prop-types";
 /**
  * Because we can't use lifecycle methods
  * We must convert into a class based component
@@ -69,6 +69,21 @@ class User extends PureComponent {
             </Aux>
         ); 
     }
+}
+
+/**
+ * For better maintenance in other teams
+ * And better underdansting if it is a library used
+ * by others, it is strongly recommended to define types
+ * for the props :
+ * <Prop name> = PropTypes.<type : func, string, number...>
+ */
+
+User.propTypes = {
+    name: PropTypes.string,
+    children: PropTypes.string,
+    changed: PropTypes.func,
+    delete: PropTypes.func
 }
 
 export default withClass(User,userStyles.User); //won't be sufficient because props are USED here
