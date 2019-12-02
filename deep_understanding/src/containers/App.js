@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styles from './App.module.css'; //access style properties like objects (thanks to css modules)
 import Users from "../components/Users/Users";
 import Cockpit from "../components/Cockpit/Cockpit";
+import Aux from "../HOC/Aux";
+import withClass from "../HOC/WithClass";
 /**
  * App is a "container" component, because it contains component instanciations (JSX)
  */
@@ -72,7 +74,7 @@ class App extends Component
    
     if(this.state.showUsers)
     {        
-                //Apply loop (better way instead of writing a lot of same code for HtML/JSX attributes)   
+                //Apply loop (better way instead of writing a lot of same code for HtML/JSX attributes)
         users =  <Users users={this.state.users} changeCommentHandler={this.changeCommentHandler} deleteUserHandler={this.deleteUserHandler} showCommentHandler={this.showCommentHandler}/>;      
                 /* 
                     react cannot tell which elements we in fact modified.
@@ -95,13 +97,13 @@ class App extends Component
      */
     
     return ( 
-        <div className={styles.App}>
+        <Aux>
             {/* Because the container must contains other components, writting a lot of conditions is not a good idea, so we use component delegating instead */}
             {/*delegation = flexability -> good maintenance*/}
             <button id={styles.cockpitDisplay} onClick={this.removeCockpit} >Remove Cockpit</button>
             { this.state.showCockpit ? <Cockpit toggleUsersHandler={this.toggleUsersHandler} usersLength={this.state.users.length} showUsers={this.state.showUsers}/> : null } 
             {users} {/* we will use a better way instead of mixing components inside another one --> we preserve the functionnal statement here, and the non ones to cockpit*/}
-        </div>
+        </Aux>
        //warning : any HTML-ish JSX code from a component must be nested inside a ROOT element
    );
 
@@ -165,4 +167,4 @@ class App extends Component
 
 
 
-export default App; 
+export default withClass(App,styles.App);  //our wrapper here adds extra HTML and JSX 

@@ -65,6 +65,8 @@ import User from './User/User';
             //i (the incremental index) can be a unique index, but what happen if the list is modified (delete, add => i won't be the same anymore for each element)
             //So this is not a good way
             //Ergo, we must set our proper unique IDs !
+               
+            //Here we are granted to pass ADJACENT JSX (without root element), because a KEY is assigned for each element
             return <User key={user.id} length={this.props.users.length} changed={(event)=>{this.props.changeCommentHandler(event,user.id)}} name={user.name} delete={this.props.deleteUserHandler.bind(this.props,i)} click={this.props.showCommentHandler.bind(this,user.comment)}>{user.comment}</User>
         })
     
