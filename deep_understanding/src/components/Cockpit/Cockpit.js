@@ -1,4 +1,4 @@
-import React, { useEffect, useRef /* in order to use referencess */ } from 'react'; //useEffect allows us to use an alternative of lifecycle hook into a React hook (for functional component )
+import React, { useEffect, useRef /* in order to use referencess */, useContext} from 'react'; //useEffect allows us to use an alternative of lifecycle hook into a React hook (for functional component )
 import styles from './Cockpit.module.css';
 import AuthContext from '../../context/auth-context';
 /**
@@ -14,6 +14,7 @@ const Cockpit = (props) => {
     
     //refs
     const toggleBtnRef = useRef(null);
+    const authContext = useContext(AuthContext);
     //kind of componentDidUpdate, will be run any time when the component will be updated, and will be launched when it is initialized
     //Ergo, it is mixed with componentDidMount and componentDidUpdate
     //So we can also write side effect statements, like HTTP requests
@@ -79,12 +80,10 @@ const Cockpit = (props) => {
         output = (<div className={styles.Cockpit}> {/* Don't forget the root element, but thanks to React 16, we can find a workaround --> later */}
                       <h1 className={classes.join(" ")}>Hi I'm a React application</h1>
                       <button ref={toggleBtnRef} className={btnClass} onClick={props.toggleUsersHandler}>Toggle users</button>
-                      <AuthContext.Consumer>
-                       {
-                        //Because Cockpit is a child of App, it knows what the login method is about, since we defined it in App
-                        (context) => <button onClick={context.login}>Log in</button>
-                       }
-                      </AuthContext.Consumer>
+                      {/*Declare a static contextType because we are not in class based, but we can simplify the wrapping thanks to React Hooks ! --> useContext */}
+                      { /*Because Cockpit is a child of App, it knows what the login method is about, since we defined it in App */ }
+                         <button onClick={authContext.login}>Log in</button>
+                    
                  </div>);
     else
         output = (<div className={styles.Cockpit}>

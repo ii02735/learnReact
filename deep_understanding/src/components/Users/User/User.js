@@ -49,10 +49,12 @@ class User extends PureComponent {
     //     return false;
     // }
 
-
+    static contextType = AuthContext; //This is an alternative of the function injected in our JSX for the context, because it can be verbose, and so the JSX is heavier in code
+                                     //Because we initialized it, we don't need neither to wrap with tags, and write a function
     componentDidUpdate()
     {
         console.warn("User component updated");
+        console.info(this.context.authenticated);
     }
 
     render(){    
@@ -73,10 +75,7 @@ class User extends PureComponent {
 
         return (
             <Aux>
-                <AuthContext.Consumer>
-                    {(context) => context.authenticated  ? <p>Authenticated !</p> : <p>Please login !</p>}
-                    {/* However it won't do anything because we must also manage the button event --> cockpit */}
-                </AuthContext.Consumer>
+                { this.context.authenticated  ? <p>Authenticated !</p> : <p>Please login !</p>} 
                 { console.log(this.props.isAuth) }
                 {
                 /* it is kinda laborious/redundacy to pass that prop :
