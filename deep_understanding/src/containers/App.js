@@ -4,6 +4,7 @@ import Users from "../components/Users/Users";
 import Cockpit from "../components/Cockpit/Cockpit";
 import Aux from "../HOC/Aux";
 import withClass from "../HOC/WithClass";
+import AuthContext from "../context/auth-context"; //App will inject informations regarding authentication
 /**
  * App is a "container" component, because it contains component instanciations (JSX)
  */
@@ -102,8 +103,14 @@ class App extends Component
             {/* Because the container must contains other components, writting a lot of conditions is not a good idea, so we use component delegating instead */}
             {/*delegation = flexability -> good maintenance*/}
             <button id={styles.cockpitDisplay} onClick={this.removeCockpit} >Remove Cockpit</button>
-            { this.state.showCockpit ? <Cockpit login={this.loginHandler} toggleUsersHandler={this.toggleUsersHandler} usersLength={this.state.users.length} showUsers={this.state.showUsers}/> : null } 
+            <AuthContext.Provider value={{authenticated: this.state.authenticated, login: this.loginHandler}}>{/* The provider component needs a value, our authenticated value is an object : the first curly braces (outer) are for a dynamic content */}
+            { this.state.showCockpit ? 
+            <Cockpit login={this.loginHandler /* Because we change authentication information here,  all the block must be surronded by the imported context */} 
+                     toggleUsersHandler={this.toggleUsersHandler}
+                     usersLength={this.state.users.length} 
+                     showUsers={this.state.showUsers}/> : null } 
             {users} {/* we will use a better way instead of mixing components inside another one --> we preserve the functionnal statement here, and the non ones to cockpit*/}
+            </AuthContext.Provider>
         </Aux>
        //warning : any HTML-ish JSX code from a component must be nested inside a ROOT element
    );

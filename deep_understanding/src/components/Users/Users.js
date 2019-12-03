@@ -62,12 +62,20 @@ import User from './User/User';
     //third step of lifecycle updating
     render(){
         return this.props.users.map( (user,i)=>{
-            //i (the incremental index) can be a unique index, but what happen if the list is modified (delete, add => i won't be the same anymore for each element)
             //So this is not a good way
+            //i (the incremental index) can be a unique index, but what happen if the list is modified (delete, add => i won't be the same anymore for each element)
             //Ergo, we must set our proper unique IDs !
                
             //Here we are granted to pass ADJACENT JSX (without root element), because a KEY is assigned for each element
-            return <User isAuth={this.props.isAuthenticated } key={user.id} length={this.props.users.length} changed={(event)=>{this.props.changeCommentHandler(event,user.id)}} name={user.name} delete={this.props.deleteUserHandler.bind(this.props,i)} click={this.props.showCommentHandler.bind(this,user.comment)}>{user.comment}</User>
+            return <User 
+                // isAuth={this.props.isAuthenticated } useless : we will directly inject our context to the appropriate component that will use it 
+                key={user.id} 
+                length={this.props.users.length} 
+                changed={(event)=>{this.props.changeCommentHandler(event,user.id)}} 
+                name={user.name} 
+                delete={this.props.deleteUserHandler.bind(this.props,i)} 
+                click={this.props.showCommentHandler.bind(this,user.comment)}>{user.comment}
+                </User>
         })
     
     }

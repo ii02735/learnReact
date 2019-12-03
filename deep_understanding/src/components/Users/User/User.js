@@ -3,6 +3,7 @@ import Aux from "../../../HOC/Aux"
 import userStyles from './User.module.css';
 import withClass from "../../../HOC/WithClass";
 import PropTypes from "prop-types";
+import AuthContext from  "../../../context/auth-context";
 /**
  * Because we can't use lifecycle methods
  * We must convert into a class based component
@@ -72,12 +73,17 @@ class User extends PureComponent {
 
         return (
             <Aux>
+                <AuthContext.Consumer>
+                    {(context) => context.authenticated  ? <p>Authenticated !</p> : <p>Please login !</p>}
+                    {/* However it won't do anything because we must also manage the button event --> cockpit */}
+                </AuthContext.Consumer>
                 { console.log(this.props.isAuth) }
-                {this.props.isAuth  ? <p>Authenticated !</p> : <p>Please login !</p>
+                {
                 /* it is kinda laborious/redundacy to pass that prop :
                    App (state = authenticated) -> Users (props = isAuth) -> User 
                    Users here is only for forwarding this props --> less maintenable (because we are forced to pass the props for Users) 
                    So Users component doesn't really care about the isAuth props
+                   See context up 
                 */
                 }
                 <h4>{this.props.name == null ? "Unknown" : this.props.name}</h4>

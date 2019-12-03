@@ -1,5 +1,6 @@
 import React, { useEffect, useRef /* in order to use referencess */ } from 'react'; //useEffect allows us to use an alternative of lifecycle hook into a React hook (for functional component )
 import styles from './Cockpit.module.css';
+import AuthContext from '../../context/auth-context';
 /**
  * Will contain App's render method (because it is better to delegate its method there in order to not make state management harder -> split state logic with rendering)
  * So here we write a component that will be called by App (delegation -> less statements in the container)
@@ -78,7 +79,12 @@ const Cockpit = (props) => {
         output = (<div className={styles.Cockpit}> {/* Don't forget the root element, but thanks to React 16, we can find a workaround --> later */}
                       <h1 className={classes.join(" ")}>Hi I'm a React application</h1>
                       <button ref={toggleBtnRef} className={btnClass} onClick={props.toggleUsersHandler}>Toggle users</button>
-                      <button onClick={props.login}>Log in</button>
+                      <AuthContext.Consumer>
+                       {
+                        //Because Cockpit is a child of App, it knows what the login method is about, since we defined it in App
+                        (context) => <button onClick={context.login}>Log in</button>
+                       }
+                      </AuthContext.Consumer>
                  </div>);
     else
         output = (<div className={styles.Cockpit}>
